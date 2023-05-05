@@ -49,7 +49,7 @@ public class AccountResource {
     }
 
     /**
-     * {@code POST  /register} : register the user.
+     * {@code POST  /register} : 회원가입
      *
      * @param managedUserVM the managed user View Model.
      * @throws InvalidPasswordException {@code 400 (Bad Request)} if the password is incorrect.
@@ -62,7 +62,6 @@ public class AccountResource {
         if (isPasswordLengthInvalid(managedUserVM.getPassword())) {
             throw new InvalidPasswordException();
         }
-        //        .doOnSuccess(mailService::sendActivationEmail)
         return userService.registerUser(managedUserVM, managedUserVM.getPassword()).then();
     }
 
