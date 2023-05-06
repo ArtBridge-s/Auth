@@ -8,6 +8,7 @@ COPY sonar-project.properties .
 
 RUN apt-get update && \
     apt-get install -y curl && \
+    apt-get install -y maven && \
     curl -fsSL https://deb.nodesource.com/setup_14.x | bash - && \
     apt-get install -y nodejs
 
