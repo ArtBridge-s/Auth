@@ -19,10 +19,10 @@
 spring:
   config:
     activate:
-      on-profile: '!api-docs'
+      on-profile: 'api-docs'
 springdoc:
   api-docs:
-    enabled: false
+    enabled: true
 ---
 eureka:
   client:
