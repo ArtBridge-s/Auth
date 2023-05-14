@@ -42,7 +42,5 @@ jobs:
       - name: Build and publish docker image
         if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/'))
         run: |
-          GIT_TAG=:${GITHUB_REF#refs/tags/}
-          DOCKER_TAG=${GIT_TAG#:refs/heads/master}
-          ./mvnw -ntp jib:build -Djib.to.image=imkunyoung/artbridge-gateway-dev${DOCKER_TAG} -Djib.to.auth.username="${{secrets.DOCKERHUB_USERNAME }}" -Djib.to.auth.password="${{secrets.DOCKERHUB_TOKEN }}" -Pdev
-          docker push imkunyoung/artbridge-gateway-dev${DOCKER_TAG}
+          ./mvnw -ntp jib:build -Djib.to.image=imkunyoung/artbridge-gateway-dev -Djib.to.auth.username="${{secrets.DOCKERHUB_USERNAME }}" -Djib.to.auth.password="${{secrets.DOCKERHUB_TOKEN }}" -Pdev
+          docker push imkunyoung/artbridge-gateway-dev
