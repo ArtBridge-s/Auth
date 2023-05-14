@@ -33,5 +33,5 @@ jobs:
 #      - name: Package application
 #        run: npm run java:jar:prod
       - name: Build and publish docker image
-        run: chmod +x ./mvnw && ./mvnw -ntp jib:build -Djib.to.image=imkunyoung/gateway-a -Djib.to.auth.username="${{ secrets.DOCKERHUB_USERNAME }}" -Djib.to.auth.password="${{ secrets.DOCKERHUB_TOKEN }}" -Pprod
+        run: chmod +x mvnw && ./mvnw -ntp jib:build -Djib.to.image=imkunyoung/gateway-a -Djib.to.auth.username="${{ secrets.DOCKERHUB_USERNAME }}" -Djib.to.auth.password="${{ secrets.DOCKERHUB_TOKEN }}" -Pprod
 
