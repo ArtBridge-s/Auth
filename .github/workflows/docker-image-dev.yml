@@ -33,10 +33,6 @@ jobs:
           ./mvnw -ntp verify -DskipTests
 #      - name: Run frontend test
 #        run: npm run ci:frontend:test
-#      - name: Run backend test
-#        run: |
-#          chmod +x mvnw
-#          npm run ci:backend:test
 #      - name: Run frontend test
 #        run: npm run ci:frontend:test
       - name: Package application
