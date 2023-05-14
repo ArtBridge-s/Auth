@@ -3,8 +3,7 @@ FROM adoptopenjdk:11-jdk AS build
 WORKDIR /app
 
 COPY src ./src
-COPY pom.xml .
-COPY sonar-project.properties .
+COPY pom.xml sonar-project.properties ./
 
 RUN apt-get update && \
     apt-get install -y curl && \
@@ -14,9 +13,8 @@ RUN apt-get update && \
 
 COPY package*.json ./
 
-RUN npm ci
-
-RUN mvn package
+RUN npm ci &&  \
+    mvn package
 
 FROM adoptopenjdk:11-jre
 
