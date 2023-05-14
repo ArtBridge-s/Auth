@@ -25,5 +25,5 @@ jobs:
 #      - name: Package application
 #        run: npm run java:jar:prod
       - name: Build and publish docker image
-        run: ./mvnw package -Pdev jib:build -Djib.to.image=imkunyoung/gateway-a -Djib.to.auth.username="${{ secrets.DOCKERHUB_USERNAME }}" -Djib.to.auth.password="${{ secrets.DOCKERHUB_TOKEN }}"
+        run: ./mvnw package -Pdev jib:build -Djib.to.image=imkunyoung/gateway-dev-a -Djib.to.auth.username="${{ secrets.DOCKERHUB_USERNAME }}" -Djib.to.auth.password="${{ secrets.DOCKERHUB_TOKEN }}"
 
