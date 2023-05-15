@@ -50,7 +50,7 @@ public class DomainUserDetailsService implements ReactiveUserDetailsService {
             .map(user -> createSpringSecurityUser(lowercaseLogin, user));
     }
 
-    private org.springframework.security.core.userdetails.User createSpringSecurityUser(String lowercaseLogin, User user) {
+    private UserDetails createSpringSecurityUser(String lowercaseLogin, User user) {
         if (!user.isActivated()) {
             throw new UserNotActivatedException("User " + lowercaseLogin + " was not activated");
         }
@@ -60,6 +60,7 @@ public class DomainUserDetailsService implements ReactiveUserDetailsService {
             .map(Authority::getName)
             .map(SimpleGrantedAuthority::new)
             .collect(Collectors.toList());
-        return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), grantedAuthorities);
+        return new CustomUserDetails(user.getId(), user.getLogin(), user.getPassword(), grantedAuthorities);
     }
+
 }
