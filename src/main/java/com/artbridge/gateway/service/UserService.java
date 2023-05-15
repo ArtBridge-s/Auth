@@ -222,11 +222,8 @@ public class UserService {
     public Mono<Void> deleteAccount(String userLogin) {
         return userRepository
             .findOneByLogin(userLogin)
-            .flatMap(user -> {
-                userRepository.delete(user);
-                log.debug("Deleted User: {}", user);
-                return Mono.empty();
-            });
+            .flatMap(userRepository::delete)
+            .doOnSuccess(deleted -> log.debug("Deleted User: {}", userLogin));
     }
 
     /**
