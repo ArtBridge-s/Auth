@@ -202,6 +202,14 @@ public class AccountResource {
         );
     }
 
+    /**
+     * {@code DELETE /account} : Delete the current user account.
+     *
+     * @param request the HTTP request.
+     * @return a completion signal for the operation.
+     * @throws AccountResourceException    {@code 500 (Internal Server Error)} if the current user login is not found.
+     * @throws RuntimeException           {@code 500 (Internal Server Error)} if the user account couldn't be deleted.
+     */
     @DeleteMapping("/account")
     public Mono<Void> deleteUserAccount(ServerWebExchange request) {
         return request
