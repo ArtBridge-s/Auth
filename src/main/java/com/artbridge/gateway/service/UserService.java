@@ -219,6 +219,16 @@ public class UserService {
             .then();
     }
 
+    public Mono<Void> deleteAccount(String userLogin) {
+        return userRepository
+            .findOneByLogin(userLogin)
+            .flatMap(user -> {
+                userRepository.delete(user);
+                log.debug("Deleted User: {}", user);
+                return Mono.empty();
+            });
+    }
+
     /**
      * Update basic information (first name, last name, email, language) for the current user.
      *

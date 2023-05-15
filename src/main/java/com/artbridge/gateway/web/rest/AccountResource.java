@@ -201,4 +201,13 @@ public class AccountResource {
             password.length() > ManagedUserVM.PASSWORD_MAX_LENGTH
         );
     }
+
+    @DeleteMapping("/account")
+    public Mono<Void> deleteUserAccount(ServerWebExchange request) {
+        return request
+            .getPrincipal()
+            .map(Principal::getName)
+            .switchIfEmpty(Mono.error(new AccountResourceException("Current user login not found")))
+            .flatMap(userService::deleteAccount);
+    }
 }
