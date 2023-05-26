@@ -30,14 +30,14 @@ jobs:
         run: mvn clean install
                                                                                                             
       - name: Build Docker image
-        run: mvn compile com.google.cloud.tools:jib-maven-plugin:build -Dimage=imkunyoung/aa-gateway
+        run: mvn compile com.google.cloud.tools:jib-maven-plugin:build -Dimage=imkunyoung/a-gateway
 
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v1
         with:
-          registry: imkunyoung/aa-gateway
+          registry: imkunyoung/a-gateway
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Push Docker image
-        run: docker push imkunyoung/aa-gateway
+        run: docker push imkunyoung/a-gateway
