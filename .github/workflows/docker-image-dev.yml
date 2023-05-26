@@ -1,45 +1,43 @@
-#name: Docker Image Dev CI
-#
-#on:
-#  push:
-#    branches: [ "master" ]
-#
-#jobs:
-#  pipeline:
-#    name: docker image dev pipeline
-#    runs-on: ubuntu-latest
-#    if: "!contains(github.event.head_commit.message, '[ci skip]') && !contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.pull_request.title, '[skip ci]') && !contains(github.event.pull_request.title, '[ci skip]')"
-#    timeout-minutes: 40
-#    env:
-#      NODE_VERSION: 16.17.0
-#      SPRING_OUTPUT_ANSI_ENABLED: DETECT
-#      SPRING_JPA_SHOW_SQL: false
-#      JHI_DISABLE_WEBPACK_LOGS: true
-#      NG_CLI_ANALYTICS: false
-#    steps:
-#      - uses: actions/checkout@v3
-#      - uses: actions/setup-node@v3
-#        with:
-#          node-version: 16.17.0
-#      - uses: actions/setup-java@v3
-#        with:
-#          distribution: "temurin"
-#          java-version: 11
-#      - name: Install node.js packages
-#        run: npm install
-#      - name: Run backend test
-#        run: |
-#          chmod +x mvnw
-#          ./mvnw -ntp verify -DskipTests
-##      - name: Run frontend test
-##        run: npm run ci:frontend:test
-##      - name: Run backend test
-##        run: |
-##          chmod +x mvnw
-##          npm run ci:backend:test
-#      - name: Package application
-#        run: npm run java:jar:dev
-#      - name: Build and publish docker image
-#        run: |
-#          ./mvnw -ntp jib:build -Djib.to.image=imkunyoung/artbridge-gateway-dev -Djib.to.auth.username="${{secrets.DOCKERHUB_USERNAME }}" -Djib.to.auth.password="${{secrets.DOCKERHUB_TOKEN }}" -Pdev
-#          docker push imkunyoung/artbridge-gateway-dev
+name: Build and Push Docker image
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 1.11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+
+      - name: Cache Maven packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Build with Maven
+        run: mvn clean install
+
+      - name: Build Docker image
+        run: mvn compile com.google.cloud.tools:jib-maven-plugin:build -Dimage=ghcr.io/imkunyoung/a-gateway
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: imkunyoung/aa-gateway
+          username: ${{ github.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Push Docker image
+        run: docker push imkunyoung/aa-gateway
