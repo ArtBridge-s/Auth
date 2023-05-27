@@ -2,7 +2,7 @@
 version: '3.8'
 services:
   gateway-app:
-    image: imkunyoung/gateway-a:latest
+    image: imkunyoung/a-gateway:latest
     environment:
       - _JAVA_OPTIONS=-Xmx512m -Xms256m
       - SPRING_PROFILES_ACTIVE=prod,api-docs
@@ -14,7 +14,7 @@ services:
       #      - JHIPSTER_SLEEP=60 # gives time for microservices to boot before the gateway, the entire stack will be ready to accept incoming requests.
       - SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS=kafka:9092
     ports:
-      - '127.0.0.1:8000:8000'
+      - '127.0.0.1:80:80'
   gateway-mariadb:
     image: mariadb:10.8.3
     # volumes:
