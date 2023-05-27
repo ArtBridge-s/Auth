@@ -30,7 +30,7 @@ jobs:
         run: mvn clean install
                                                                                                             
       - name: Build Docker image
-        run: mvn package -DskipTests jib:build -Dimage=imkunyoung/aa-gateway
+        run: mvn package -DskipTests jib:build -Dimage=docker.io/imkunyoung/aa-gateway
 
       - name: Log in to Dockerhub
         uses: docker/login-action@v1
