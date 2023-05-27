@@ -36,7 +36,7 @@ jobs:
         run: mvn clean install
 
       - name: Build Docker image
-        run: mvn package -DskipTests jib:build -Dimage=docker.io/imkunyoung/aa-gateway
+        run: mvn package -DskipTests jib:build -Dimage=docker.io/imkunyoung/gateway-a
 
       - name: Push Docker image
-        run: docker push imkunyoung/aa-gateway
+        run: docker push imkunyoung/gateway-a
