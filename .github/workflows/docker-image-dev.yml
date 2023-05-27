@@ -38,5 +38,3 @@ jobs:
       - name: Build Docker image
         run: mvn package -DskipTests jib:build -Dimage=docker.io/imkunyoung/gateway-a
 
-      - name: Push Docker image
-        run: docker push imkunyoung/gateway-a
