@@ -12,7 +12,7 @@ services:
       - SPRING_R2DBC_URL=r2dbc:mariadb://gateway-mariadb:3306/gateway?useLegacyDatetimeCode=false&serverTimezone=UTC
       - SPRING_LIQUIBASE_URL=jdbc:mariadb://gateway-mariadb:3306/gateway?useLegacyDatetimeCode=false&serverTimezone=UTC
       #      - JHIPSTER_SLEEP=60 # gives time for microservices to boot before the gateway, the entire stack will be ready to accept incoming requests.
-      - SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS=kafka:9092
+      - SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS=kafka:29092
     ports:
       - '127.0.0.1:80:80'
   gateway-mariadb:
