@@ -9,5 +9,5 @@ public interface MemberNameProducer {
      *
      * @param name 처리할 회원 이름 (String)
      */
-    void memberNameProduce(String name);
+    void memberNameProduce(Long id, String name);
 }
