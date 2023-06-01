@@ -1,5 +1,7 @@
 package com.artbridge.gateway.service;
 
+import com.artbridge.gateway.adapter.MemberNameProducer;
+import com.artbridge.gateway.adapter.MemberNameService;
 import com.artbridge.gateway.config.Constants;
 import com.artbridge.gateway.domain.Authority;
 import com.artbridge.gateway.domain.User;
@@ -30,7 +32,7 @@ import tech.jhipster.security.RandomUtil;
  * Service class for managing users.
  */
 @Service
-public class UserService {
+public class UserService implements MemberNameService {
 
     private final Logger log = LoggerFactory.getLogger(UserService.class);
 
@@ -40,10 +42,13 @@ public class UserService {
 
     private final AuthorityRepository authorityRepository;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository) {
+    private final MemberNameProducer memberNameProducer;
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, MemberNameProducer memberNameProducer) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
+        this.memberNameProducer = memberNameProducer;
     }
 
     @Transactional
@@ -350,5 +355,14 @@ public class UserService {
     @Transactional(readOnly = true)
     public Flux<String> getAuthorities() {
         return authorityRepository.findAll().map(Authority::getName);
+    }
+
+    @Override
+    public void consumeMemberName(long id) {
+        userRepository.findById(id).subscribe(user -> {
+            memberNameProducer.memberNameProduce(user.getFirstName() + ' ' + user.getLastName());
+            log.info("User name is {}", user.getFirstName());
+        });
+
     }
 }
