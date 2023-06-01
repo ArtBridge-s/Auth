@@ -44,7 +44,12 @@ public class UserService implements MemberNameService {
 
     private final MemberNameProducer memberNameProducer;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, MemberNameProducer memberNameProducer) {
+    public UserService(
+        UserRepository userRepository,
+        PasswordEncoder passwordEncoder,
+        AuthorityRepository authorityRepository,
+        MemberNameProducer memberNameProducer
+    ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
@@ -358,11 +363,12 @@ public class UserService implements MemberNameService {
     }
 
     @Override
-    public void consumeMemberName(long id) {
-        userRepository.findById(id).subscribe(user -> {
-            memberNameProducer.memberNameProduce(user.getFirstName() + ' ' + user.getLastName());
-            log.info("User name is {}", user.getFirstName());
-        });
-
+    public void produceMemberName(long id) {
+        userRepository
+            .findById(id)
+            .subscribe(user -> {
+                memberNameProducer.memberNameProduce(user.getFirstName() + ' ' + user.getLastName());
+                log.info("User name is {}", user.getFirstName());
+            });
     }
 }
