@@ -367,7 +367,7 @@ public class UserService implements MemberNameService {
         userRepository
             .findById(id)
             .subscribe(user -> {
-                memberNameProducer.memberNameProduce(user.getFirstName() + ' ' + user.getLastName());
+                memberNameProducer.memberNameProduce(id, user.getFirstName() + ' ' + user.getLastName());
                 log.info("User name is {}", user.getFirstName());
             });
     }
