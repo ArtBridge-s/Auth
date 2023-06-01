@@ -37,7 +37,7 @@ public class MemberNameRequestConsumer {
             throw new RuntimeException(e);
         }
 
-        memberNameService.produceMemberName((Long) map.get("name"));
-        log.info("MemberNameRequestConsumer: {}", map.get("name"));
+        memberNameService.produceMemberName(Long.parseLong(map.get("id").toString()));
+        log.info("MemberNameRequestConsumer: {}", map.get("id"));
     }
 }
