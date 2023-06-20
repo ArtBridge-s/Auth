@@ -23,34 +23,34 @@ import reactor.core.publisher.Sinks;
 @RequestMapping("/api/gateway-kafka")
 public class GatewayKafkaResource {
 
-    private final Logger log = LoggerFactory.getLogger(GatewayKafkaResource.class);
-
-    private final MessageChannel output;
-    private Sinks.Many<Message<String>> sink = Sinks.many().unicast().onBackpressureBuffer();
-
-    public GatewayKafkaResource(@Qualifier(KafkaSseProducer.CHANNELNAME) MessageChannel output) {
-        this.output = output;
-    }
-
-    @PostMapping("/publish")
-    public Mono<ResponseEntity<Void>> publish(@RequestParam String message) {
-        log.debug("REST request the message : {} to send to Kafka topic", message);
-        Map<String, Object> map = new HashMap<>();
-        map.put(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.TEXT_PLAIN_VALUE);
-        MessageHeaders headers = new MessageHeaders(map);
-        output.send(new GenericMessage<>(message, headers));
-        return Mono.just(ResponseEntity.noContent().build());
-    }
-
-    @GetMapping("/consume")
-    public Flux<String> consume() {
-        log.debug("REST request to consume records from Kafka topics");
-        return sink.asFlux().map(m -> m.getPayload());
-    }
-
-    @StreamListener(value = KafkaSseConsumer.CHANNELNAME, copyHeaders = "false")
-    public void consume(Message<String> message) {
-        log.debug("Got message from kafka stream: {}", message.getPayload());
-        sink.emitNext(message, Sinks.EmitFailureHandler.FAIL_FAST);
-    }
+//    private final Logger log = LoggerFactory.getLogger(GatewayKafkaResource.class);
+//
+//    private final MessageChannel output;
+//    private Sinks.Many<Message<String>> sink = Sinks.many().unicast().onBackpressureBuffer();
+//
+//    public GatewayKafkaResource(@Qualifier(KafkaSseProducer.CHANNELNAME) MessageChannel output) {
+//        this.output = output;
+//    }
+//
+//    @PostMapping("/publish")
+//    public Mono<ResponseEntity<Void>> publish(@RequestParam String message) {
+//        log.debug("REST request the message : {} to send to Kafka topic", message);
+//        Map<String, Object> map = new HashMap<>();
+//        map.put(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.TEXT_PLAIN_VALUE);
+//        MessageHeaders headers = new MessageHeaders(map);
+//        output.send(new GenericMessage<>(message, headers));
+//        return Mono.just(ResponseEntity.noContent().build());
+//    }
+//
+//    @GetMapping("/consume")
+//    public Flux<String> consume() {
+//        log.debug("REST request to consume records from Kafka topics");
+//        return sink.asFlux().map(m -> m.getPayload());
+//    }
+//
+//    @StreamListener(value = KafkaSseConsumer.CHANNELNAME, copyHeaders = "false")
+//    public void consume(Message<String> message) {
+//        log.debug("Got message from kafka stream: {}", message.getPayload());
+//        sink.emitNext(message, Sinks.EmitFailureHandler.FAIL_FAST);
+//    }
 }

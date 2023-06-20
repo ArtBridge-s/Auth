@@ -23,7 +23,7 @@ public class MemberNameRequestConsumer {
     }
 
 
-    @KafkaListener(topics = TOPIC_MEMBER_NAME_REQUEST)
+    @KafkaListener(topics = TOPIC_MEMBER_NAME_REQUEST, groupId = "my-group")
     public void processMessage(String name) {
         log.info("MemberNameRequestConsumer: {}", name);
 
